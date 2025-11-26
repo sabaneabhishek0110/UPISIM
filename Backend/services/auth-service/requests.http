@@ -1,0 +1,14 @@
+### GET request to example server
+GET http://localhost:8081
+
+###
+GET http://localhost:8081/api/User/getAllUsers
+
+###
+POST http://localhost:8081/api/User/register
+Content-Type: application/json
+
+{
+  "phone": "9579061042",
+  "password": "abhi123"
+}
