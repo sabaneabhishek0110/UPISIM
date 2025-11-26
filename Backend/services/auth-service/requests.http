@@ -12,3 +12,15 @@ Content-Type: application/json
   "phone": "9579061042",
   "password": "abhi123"
 }
+
+###
+POST http://localhost:8081/api/User/login
+Content-Type: application/json
+
+{
+  "phone" : "9579061042",
+  "password" : "abhi123"
+}
+
+###
+GET http://localhost:8081/api/User/me
