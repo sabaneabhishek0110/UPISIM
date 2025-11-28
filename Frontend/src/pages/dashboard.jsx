@@ -6,7 +6,7 @@ function Dashboard() {
     const navigate = useNavigate();
     const handleLogout = (e) => {
         try{
-            const response = axios.post("http://localhost:8081/api/User/logout",{}, { withCredentials: true });
+            const response = axios.post("http://localhost:8080/api/User/logout",{}, { withCredentials: true });
             console.log(response.data);
             console.log("Logged out successfully");
             navigate("/login");

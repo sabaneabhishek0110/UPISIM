@@ -24,7 +24,7 @@ const Register = () => {
             }
             setError("");
 
-            const response = await axios.post("http://localhost:8081/api/User/register", {
+            const response = await axios.post("http://localhost:8080/api/User/register", {
                 phone,
                 password
             });

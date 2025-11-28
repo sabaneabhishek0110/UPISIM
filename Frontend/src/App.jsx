@@ -1,18 +1,27 @@
 import { useEffect } from "react";
-import useAuthStore from "./store/authStore";
-import AppRoutes from "./routes";
+import { useAuthStore } from "./store/authStore";
+import { Routes } from "./routes"
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const checkAuth = useAuthStore((state) => state.checkAuth);
-  const loading = useAuthStore((state) => state.loading);
+  const checkAuth = useAuthStore((s) => s.checkAuth);
+  const user = useAuthStore((s) => s.user);
+  const loading = useAuthStore((s) => s.loading);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    checkAuth(); 
+    checkAuth();
   }, []);
 
-  if (loading) return <div>Checking authentication...</div>;
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/dashboard");
+    }
+  }, [loading, user]);
 
-  return <AppRoutes />; 
+  if (loading) return <div className="p-10">Checking session...</div>;
+
+  return <Routes />;
 }
 
 export default App;

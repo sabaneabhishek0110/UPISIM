@@ -8,7 +8,14 @@ const AppRoutes = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+      path="/dashboard"
+      element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      }
+      />
       <Route path="*" element={<Login />} />
     </Routes>
   </BrowserRouter>

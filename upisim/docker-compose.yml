@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:15-alpine
+    env_file: .env
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER_DOCKER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_DOCKER}
+#      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT_DOCKER:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - upinet
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - upinet
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    env_file: .env
+    networks:
+      - upinet
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+#      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER_DOCKER}
+#      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD_DOCKER}
+
+volumes:
+  db-data:
+
+networks:
+  upinet:
+    driver: bridge
