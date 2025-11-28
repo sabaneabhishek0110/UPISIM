@@ -1,5 +1,6 @@
 package com.example.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,12 @@ public class TokenService {
                 .compact();
     }
     public String validateToken(String token){
-        return Jwts.parser()
+        Claims claims =  Jwts.parser()
                 .setSigningKey(keyManager.getPublicKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
+
+        return claims.getSubject();
     }
 }

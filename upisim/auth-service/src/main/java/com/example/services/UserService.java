@@ -108,7 +108,7 @@ public class UserService {
     public User authenticateUser(String phone, String password) {
         Optional<User> userOpt = userRepository.findByPhone(phone);
         if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("invalid phone or password");
+            throw new IllegalArgumentException("Phone number not registered");
         }
         User user = userOpt.get();
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {

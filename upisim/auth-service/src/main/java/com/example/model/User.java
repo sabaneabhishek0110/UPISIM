@@ -30,7 +30,7 @@ public class User {
     private String name;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password_hash", length = 128, nullable = true)
+    @Column(name = "password_hash", length = 255, nullable = true)
     private String passwordHash;
 
     // pointer to a default account (nullable)

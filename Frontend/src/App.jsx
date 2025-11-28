@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAuthStore } from "./store/authStore";
-import { Routes } from "./routes"
+import useAuthStore from "./store/authStore";
 import { useNavigate } from "react-router-dom";
+import AppRoutes from "./routes.jsx";
 
 function App() {
   const checkAuth = useAuthStore((s) => s.checkAuth);
@@ -21,7 +21,7 @@ function App() {
 
   if (loading) return <div className="p-10">Checking session...</div>;
 
-  return <Routes />;
+  return <AppRoutes />;
 }
 
 export default App;

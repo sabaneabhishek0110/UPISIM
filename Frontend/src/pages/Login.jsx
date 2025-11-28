@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState ,useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../components/Input.jsx";
@@ -8,6 +8,7 @@ import useAuthStore from "../store/authStore.js";
 import axios from "axios";
 
 const Login = () => {
+  const user = useAuthStore(state => state.user);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error,setError] = useState("");
@@ -34,12 +35,19 @@ const Login = () => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("User : ",user?.phone);
+  // },[]);
+
+
   return (
     <Card>
       <h2 className="text-2xl font-bold text-center mb-6">Login to UPI Simulator</h2>
       <form onSubmit={handleLogin}>
         <Input label="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Enter Phone" />
         <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
+        {/* Warning message */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <Button type="submit">Login</Button>
       </form>
       <p className="mt-4 text-center">

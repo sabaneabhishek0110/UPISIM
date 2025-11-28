@@ -27,9 +27,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/api/User/login") ||
+                path.startsWith("/api/User/register") ||
+                path.startsWith("/otp") ||
+                path.startsWith("/.well-known") ||
+                path.startsWith("/health")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = extractToken(request);
 
-        if (token != null) {
+        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 String userId = TokenService.validateToken(token);
 
@@ -39,7 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             } catch (Exception e) {
-                System.out.println("Invalid JWT: " + e.getMessage());
+                System.out.println("JWT Parsing Error : " + e.getMessage());
             }
         }
 

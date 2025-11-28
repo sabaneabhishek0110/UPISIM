@@ -36,10 +36,10 @@ public class AuthController {
         try{
             User user = userService.registerUser(req.getPhone(),req.getPassword());
             String token = tokenService.issueToken(user.getId().toString());
-            ResponseCookie cookie = ResponseCookie.from("token",token)
+            ResponseCookie cookie = ResponseCookie.from(COOKIE_NAME,token)
                     .httpOnly(true)
-                    .secure(true)
-                    .sameSite("Strict")
+                    .secure(false)
+                    .sameSite("Lax")
                     .path("/")
                     .maxAge(7*24*60*60)
                     .build();
@@ -101,7 +101,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .sameSite("None")
+                .sameSite("Lax")
                 .maxAge(0)
                 .build();
 
@@ -114,10 +114,10 @@ public class AuthController {
     public ResponseEntity<?> currentUser(HttpServletRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(auth==null || auth.getPrincipal()==null){
+        if(auth==null || auth.getPrincipal()==null || auth.getPrincipal().equals("anonymousUser")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user not authenticated");
         }
-        String userId = auth.getPrincipal().toString();
+        String userId = auth.getName();
         UserDTO user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }

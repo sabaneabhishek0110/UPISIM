@@ -1,12 +1,18 @@
-import { useAuthStore } from "../store/auth";
-import { Navigate } from "react-router-dom";
+import { use, useEffect } from "react";
+import useAuthStore from "./store/authStore";
+import { useNavigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
-  const user = useAuthStore(state => state.user);
-  const loading = useAuthStore(state => state.loading);
+const ProtectedRoute = ({ children }) => {
+  const loggedIn = useAuthStore(state => state.isLoggedIn);
+  const navigate = useNavigate();
 
-  if (loading) return <div>Checking session...</div>;
-  if (!user) return <Navigate to="/login" />;
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate("/login");
+    } 
+  }, []);
   
   return children;
 }
+
+export default ProtectedRoute;
