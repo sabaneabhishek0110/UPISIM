@@ -93,3 +93,6 @@ yarn-error.log*
 spring.log
 # mac cache
 ._*
+
+
+upisim/api-gateway/

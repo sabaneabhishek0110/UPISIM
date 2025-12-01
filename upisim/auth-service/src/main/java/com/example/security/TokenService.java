@@ -35,7 +35,7 @@ public class TokenService {
                 .compact();
     }
     public String validateToken(String token){
-        Claims claims =  Jwts.parser()
+        Claims claims =  Jwts.parserBuilder()
                 .setSigningKey(keyManager.getPublicKey())
                 .build()
                 .parseClaimsJws(token)

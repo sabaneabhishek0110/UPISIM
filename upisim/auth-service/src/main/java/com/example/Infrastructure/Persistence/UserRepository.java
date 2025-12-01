@@ -2,7 +2,7 @@ package com.example.Infrastructure.Persistence;
 
 import com.example.model.User;
 import com.example.web.dto.UserDTO;
-import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
